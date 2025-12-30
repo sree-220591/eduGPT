@@ -2,6 +2,7 @@ import json
 from src.utils.topic_aliases import TOPIC_ALIASES
 from src.generation.response_builder import build_response
 from src.retrieval.scoring import score_chunk
+from src.embeddings.semantic_search import semantic_search
 
 DATA_PATH = "/home/user/eduGPT/data/processed/eduGPT_chunks.json"
 
@@ -64,7 +65,7 @@ if __name__ == "__main__":
         matches = search_chunks(user_query, chunks)
 
         if not matches:
-            print("\neduGPT: I don't have enough information on that yet.")
+            matches = semantic_search(user_query)
 
         else:
             last_chunks = matches
