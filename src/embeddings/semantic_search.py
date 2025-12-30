@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 DATA_PATH = "data/processed/eduGPT_chunks.json"
-
+SIMILARITY_THRESHOLD = 0.2
 
 def semantic_search(query, top_k=3):
     with open(DATA_PATH, "r") as f:
@@ -24,8 +24,15 @@ def semantic_search(query, top_k=3):
     query_vec = vectorizer.transform([query])
 
     similarities = cosine_similarity(query_vec, tfidf_matrix)[0]
-    top_indices = similarities.argsort()[-top_k:][::-1]
+    
+    scored = list(enumerate(similarities))
+    scored.sort(key=lambda x: x[1],reverse=True)
 
-    return [chunks[i] for i in top_indices]
+    filtered = [
+        chunks[i] for i, score in scored[:top_k]
+        if score >= SIMILARITY_THRESHOLD
+    ]
+
+    return filtered
 
 
