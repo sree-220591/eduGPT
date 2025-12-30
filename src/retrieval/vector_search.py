@@ -4,6 +4,8 @@ from src.generation.response_builder import build_response
 from src.retrieval.scoring import score_chunk
 from src.embeddings.semantic_search import semantic_search
 from src.reasoning.probability_rules import RULES
+from src.reasoning.stepwise import STEPWISE_RULES
+
 
 DATA_PATH = "/home/user/eduGPT/data/processed/eduGPT_chunks.json"
 
@@ -34,12 +36,7 @@ def search_chunks(query,chunks):
             if q in text:
                 matched_chunks.append(chunk)
                 break
-        # if (
-        #     query in chunk["topic"].lower()
-        #     or query in chunk["question"].lower()
-        #     or chunk["topic"].lower() in query
-        # ):
-        #     results.append(chunk)
+
     scored_chunks = []
     for chunk in matched_chunks:
         score = score_chunk(query,chunk)
@@ -59,6 +56,13 @@ if __name__ == "__main__":
         if user_query.lower() == 'exit':
             break
 
+        if "step by step" in user_query.lower() or "steps" in user_query.lower():
+            for key, func in STEPWISE_RULES.items():
+                if key in user_query.lower():
+                    print("\neduGPT:", func())
+                    continue
+
+
         normalized_query = user_query.lower()
 
         for rule_key, rule_func in RULES.items():
@@ -66,29 +70,9 @@ if __name__ == "__main__":
                 print("\neduGPT:", rule_func())
                 continue
 
-        
-        # if "simplify" in user_query.lower() and last_chunks:
-        #     answer = build_response(last_chunks, mode="simplify")
-        #     print(f"eduGPT: {answer}")
-        #     continue 
         else:
             matches = search_chunks(user_query, chunks)
 
-            # if not matches:
-            #     semantic_matches = semantic_search(user_query)
-
-            #     if semantic_matches:
-            #         matches = semantic_matches
-            #     else:
-            #         from src.utils.scope_guard import is_in_scope
-
-            #         if is_in_scope(user_query):
-            #             print("\neduGPT: I understand this question is about probability but i haven't learned this concept yet.")
-            #             print("eduGPT: Based on my current knowledge, i can explain definitions, events, and classical probability.")
-            #         else:
-            #             print("\neduGPT: This question is outside my current learning scope (probability theory).")
-
-            #         continue
 
             if not matches:
                 print("[DEBUG] No keyword matches found")
