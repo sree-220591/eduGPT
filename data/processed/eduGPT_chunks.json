@@ -1,0 +1,52 @@
+[
+  {
+    "id": "prob_001",
+    "domain": "Mathematics",
+    "subdomain": "Probability",
+    "topic": "Random Experiment",
+    "question": "What is a random experiment?",
+    "answer": "A random experiment is an action or process whose outcome cannot be predicted with certainty in advance, even when repeated under the same conditions. Examples include tossing a coin or rolling a die, where multiple outcomes are possible.",
+    "difficulty": "beginner",
+    "source": "random_experiment_and_sample_space.md"
+  },
+  {
+    "id": "prob_002",
+    "domain": "Mathematics",
+    "subdomain": "Probability",
+    "topic": "Sample Space",
+    "question": "What is a sample space?",
+    "answer": "The sample space is the set of all possible outcomes of a random experiment. It is usually denoted by S and must include every outcome that can occur in the experiment.",
+    "difficulty": "beginner",
+    "source": "random_experiment_and_sample_space.md"
+  },
+  {
+    "id": "prob_003",
+    "domain": "Mathematics",
+    "subdomain": "Probability",
+    "topic": "Event",
+    "question": "What is an event in probability?",
+    "answer": "An event is a subset of the sample space and represents one or more outcomes of interest from a random experiment. Probability calculations are always performed for events.",
+    "difficulty": "beginner",
+    "source": "events_and_types_of_events.md"
+  },
+  {
+    "id": "prob_004",
+    "domain": "Mathematics",
+    "subdomain": "Probability",
+    "topic": "Classical Probability",
+    "question": "What is classical probability?",
+    "answer": "Classical probability defines the probability of an event as the ratio of the number of favorable outcomes to the total number of equally likely outcomes in the sample space.",
+    "difficulty": "beginner",
+    "source": "classical_probability.md"
+  },
+  {
+    "id": "prob_005",
+    "domain": "Mathematics",
+    "subdomain": "Probability",
+    "topic": "Equally Likely Outcomes",
+    "question": "When can classical probability be applied?",
+    "answer": "Classical probability can be applied only when all possible outcomes of a random experiment are equally likely and the total number of outcomes is finite.",
+    "difficulty": "beginner",
+    "source": "classical_probability.md"
+  }
+]
