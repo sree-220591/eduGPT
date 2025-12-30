@@ -1,6 +1,7 @@
 import json
 from src.utils.topic_aliases import TOPIC_ALIASES
 from src.generation.response_builder import build_response
+from src.retrieval.scoring import score_chunk
 
 DATA_PATH = "/home/user/eduGPT/data/processed/eduGPT_chunks.json"
 
@@ -18,8 +19,8 @@ def expand_query(query):
 def search_chunks(query,chunks):
     query = query.lower()
     expanded_queries = expand_query(query)
-    results = []
-    
+
+    matched_chunks = []
 
     for chunk in chunks:
         text = (
@@ -29,7 +30,7 @@ def search_chunks(query,chunks):
 
         for q in expanded_queries:
             if q in text:
-                results.append(chunk)
+                matched_chunks.append(chunk)
                 break
         # if (
         #     query in chunk["topic"].lower()
@@ -37,8 +38,14 @@ def search_chunks(query,chunks):
         #     or chunk["topic"].lower() in query
         # ):
         #     results.append(chunk)
+    scored_chunks = []
+    for chunk in matched_chunks:
+        score = score_chunk(query,chunk)
+        scored_chunks.append((score,chunk))
+
+    scored_chunks.sort(reverse=True, key=lambda x: x[0])
     
-    return results
+    return [chunk for score, chunk in scored_chunks]
 
 if __name__ == "__main__":
     chunks = load_chunks()
