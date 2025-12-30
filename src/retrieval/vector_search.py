@@ -1,4 +1,5 @@
 import json
+from src.utils.topic_aliases import TOPIC_ALIASES
 
 DATA_PATH = "/home/user/eduGPT/data/processed/eduGPT_chunks.json"
 
@@ -6,17 +7,34 @@ def load_chunks():
     with open(DATA_PATH,"r") as f:
         return json.load(f)
     
+def expand_query(query):
+    expanded = [query]
+    for key,values in TOPIC_ALIASES.items():
+        if key in query:
+            expanded.extend(values)
+    return expanded
+
 def search_chunks(query,chunks):
     query = query.lower()
+    expanded_queries = expand_query(query)
     results = []
 
     for chunk in chunks:
-        if (
-            query in chunk["topic"].lower()
-            or query in chunk["question"].lower()
-            or chunk["topic"].lower() in query
-        ):
-            results.append(chunk)
+        text = (
+            chunk["topic"].lower() + " " +
+            chunk["question"].lower()
+        )
+
+        for q in expanded_queries:
+            if q in text:
+                results.append(chunk)
+                break
+        # if (
+        #     query in chunk["topic"].lower()
+        #     or query in chunk["question"].lower()
+        #     or chunk["topic"].lower() in query
+        # ):
+        #     results.append(chunk)
     
     return results
 
