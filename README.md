@@ -14,8 +14,4 @@ eduGPT is a domain-limited, retrieval-based educational assistant.
 User queries are matched against relevant educational content using embeddings,
 and the most relevant context is used to generate responses.
 
-## Setup Instructions
 
-```bash
-pip install -r requirements.txt
-python src/main.py
